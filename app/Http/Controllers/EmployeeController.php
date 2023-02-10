@@ -89,21 +89,5 @@ class EmployeeController extends Controller
         return 204;
     }
 
-    public function list (Request $request){
-        $employee_query=Employee::with(['first_name', 'last_name']);
-        if($request->keyword){
-            $employee_query->where('first_name', 'LIKE', '%' .$request->keyword. '%');
-        }
-        if($request->last_name){
-            $employee_query->whereHas('last_name', function($query)use($request){
-                $query->where('slug',$request->last_name);
-            });
-        }
 
-        $employees=$employee_query->get();
-        return response ()->json ([
-            'massage' => 'Employee successfully created',
-            'data'=>$employees
-         ],200);
-}
 }
